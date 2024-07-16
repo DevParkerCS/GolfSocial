@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.heroSection {
+  height: 100vh;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0)
+    ),
+    url("../../assets/hero.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+
+  .heroTxt {
+    margin-left: 2rem;
+  }
+
+  .heroTitle {
+    color: #ffd700;
+    font-size: 4rem;
+  }
+
+  .heroSubtitle {
+    color: #f0ead6;
+    font-size: 2rem;
+  }
+}

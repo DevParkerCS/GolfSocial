@@ -1,0 +1,67 @@
+.recentPostsTitle {
+  font-size: 4rem;
+  text-align: center;
+  padding-bottom: 2rem;
+  color: white;
+}
+
+.recentPostsSection {
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.4)
+    ),
+    url("../../../../assets/sandshot.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  padding: 4rem 0rem;
+}
+
+.recentPostsWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 0rem 4rem;
+}
+
+.recentPost {
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 2rem;
+  background-color: white;
+  width: 30vw;
+  max-width: 30vw;
+  .recentTitle {
+    font-size: 2rem;
+  }
+
+  .recentUser {
+    font-size: 1rem;
+    color: rgb(41, 40, 40);
+  }
+}
+
+.recentScoresSection {
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.4)
+    ),
+    url("../../../../assets/course.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  padding: 2rem 0rem;
+}
+
+.recentCTA {
+  font-size: 1.5rem;
+  color: #ffd700;
+  text-align: center;
+  margin-top: 2rem;
+
+  a {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,16 @@
+.comment {
+  border-bottom: 2px solid black;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+
+  .commentUser {
+    font-style: italic;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+  }
+
+  .commentTxt {
+    font-size: 1.1rem;
+  }
+}

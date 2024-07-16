@@ -1,0 +1,39 @@
+.navWrapper {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid black;
+  position: fixed;
+  width: 100vw;
+  background-color: rgba(black, 0.7);
+  color: white;
+  height: 4rem;
+  max-height: 4rem;
+  overflow: hidden;
+
+  .navTitle {
+    padding: 1rem;
+    cursor: pointer;
+    color: #ffd700;
+  }
+
+  .navListWrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+  }
+
+  .navList {
+    display: flex;
+    list-style: none;
+    align-items: center;
+  }
+
+  .navListItem {
+    margin: 1rem;
+    cursor: pointer;
+  }
+
+  .disableLogin {
+    display: none;
+  }
+}
