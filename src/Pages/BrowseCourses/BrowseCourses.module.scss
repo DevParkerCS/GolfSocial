@@ -1,3 +1,5 @@
+@use "../../styles/color/color" as *;
+
 .contentWrapper {
   background-image: linear-gradient(
       to right,
@@ -31,7 +33,7 @@
   width: 55%;
   border-radius: 25px;
   padding: 0.25rem 1rem;
-  background-color: #f0ead6;
+  background-color: $neutral-light-color;
 }
 
 .coursesSection {
@@ -40,7 +42,7 @@
 
 .coursesTitle {
   font-size: 3rem;
-  color: #f0ead6;
+  color: $neutral-light-color;
   text-align: center;
   margin-bottom: 1.5rem;
 }
@@ -52,7 +54,7 @@
 }
 
 .course {
-  background-color: #ddd;
+  background-color: $neutral-light-color;
   padding: 1.5rem 2rem;
   margin: 0.1rem;
   width: 80%;
@@ -67,16 +69,17 @@
   .courseName {
     color: black;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+    color: $primary-color;
   }
 
   .courseLoc,
   .coursePlays {
-    color: rgba(black, 0.8);
+    font-size: 1rem;
+    color: $secondary-color;
   }
 
   &:hover {
-    box-shadow: 0px 0px 5px #ffd700;
     transform: scale(1.02);
   }
 
