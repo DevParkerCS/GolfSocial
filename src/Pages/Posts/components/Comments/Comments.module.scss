@@ -1,13 +1,25 @@
+@use "../../../../styles/color/color" as *;
+
 .commentsWrapper {
-  background-color: rgba(black, 0.1);
+  background-color: $neutral-light-color;
   max-height: 0px;
   overflow: hidden;
-  transition: all 0.25s linear;
+  transition: max-height 0.2s linear;
+  overflow-y: scroll;
 
   &.active {
-    overflow-y: auto;
+    overflow-y: scroll;
     max-height: 500px;
+  }
+
+  &.padded {
     padding: 1rem;
+  }
+
+  .noCommentTxt {
+    text-align: center;
+    color: $neutral-dark-color;
+    font-weight: 600;
   }
 }
 
@@ -20,19 +32,44 @@
 
   .createCommentInput {
     font-size: 1.25rem;
-    padding: 0.5rem;
+    padding: 1rem;
     resize: none;
+    overflow: visible;
     margin-bottom: 1rem;
+    outline: none;
+    border: none;
   }
 
   .createCommentBtn {
-    font-size: 1.35rem;
+    font-size: 1.05rem;
     cursor: pointer;
     padding: 0.5rem 1rem;
     border-radius: 25px;
-    margin-bottom: 1.5rem;
     align-self: flex-end;
-    background-color: black;
-    color: white;
+    background-color: $primary-color;
+    color: $neutral-light-color;
+    font-weight: bold;
+    transition: all 0.2s linear;
+
+    &:hover {
+      background-color: $neutral-light-color;
+      color: $primary-color;
+    }
+  }
+}
+
+.createCommentBtnWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  p {
+    font-weight: bold;
+    margin-right: 1rem;
+  }
+
+  .maxCharCount {
+    color: red;
   }
 }

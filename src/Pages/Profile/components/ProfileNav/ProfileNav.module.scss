@@ -1,0 +1,33 @@
+.profileNav {
+  display: flex;
+  border-bottom: 2px solid #ffffff;
+
+  .profileNavItem {
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    background-color: #f0f0f0;
+    color: #004d00;
+
+    &.activeNav {
+      color: #f0f0f0;
+      background-color: #004d00;
+      font-weight: bold;
+    }
+
+    &:first-child {
+      border-top-left-radius: 15px;
+    }
+
+    &:hover {
+      color: #f0f0f0;
+      background-color: #004d00;
+    }
+
+    &:last-child {
+      border-right: 2px solid white;
+      border-top-right-radius: 15px;
+    }
+  }
+}

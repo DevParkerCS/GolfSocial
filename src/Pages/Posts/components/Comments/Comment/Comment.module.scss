@@ -2,15 +2,34 @@
   border-bottom: 2px solid black;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 2rem;
+  align-items: center;
 
   .commentUser {
     font-style: italic;
     font-size: 1rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
     cursor: pointer;
   }
 
   .commentTxt {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
+  }
+}
+
+.likeWrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  p {
+    margin-left: 0.5rem;
+    font-weight: bold;
+  }
+
+  &.isLiked {
+    color: red;
   }
 }

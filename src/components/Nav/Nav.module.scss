@@ -1,10 +1,12 @@
+@use "../../styles/color/color" as *;
+
 .navWrapper {
   display: flex;
   justify-content: space-between;
   border-bottom: 2px solid black;
   position: fixed;
   width: 100vw;
-  background-color: rgba(black, 0.7);
+  background-color: $neutral-dark-color;
   color: white;
   height: 4rem;
   max-height: 4rem;
@@ -14,6 +16,12 @@
     padding: 1rem;
     cursor: pointer;
     color: #ffd700;
+    transition: all 0.2s linear;
+    transform: scale(1);
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   .navListWrapper {
@@ -29,8 +37,17 @@
   }
 
   .navListItem {
-    margin: 1rem;
+    padding: 1rem;
     cursor: pointer;
+    transition: all 0.2s linear;
+    transform: scale(1);
+    transform-origin: center;
+    position: relative;
+
+    &:hover {
+      color: $highlight-color;
+      transform: scale(1.1);
+    }
   }
 
   .disableLogin {

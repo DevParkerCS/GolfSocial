@@ -1,3 +1,5 @@
+@use "../../styles/color/color" as *;
+
 .contentWrapper {
   display: flex;
   flex-direction: column;
@@ -30,13 +32,13 @@
     padding: 0.5rem 1rem;
     border-radius: 15px;
     cursor: pointer;
-    color: #ffd700;
-    background-color: black;
+    color: $neutral-light-color;
+    background-color: $primary-color;
     transition: all 0.2s linear;
 
     &:hover {
-      background-color: #ffd700;
-      color: black;
+      background-color: $neutral-light-color;
+      color: $primary-color;
     }
   }
 }
@@ -80,4 +82,8 @@
       color: red;
     }
   }
+}
+
+.postsSection {
+  min-height: 100vh;
 }

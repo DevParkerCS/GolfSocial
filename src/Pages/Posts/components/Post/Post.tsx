@@ -4,20 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 import {
   formatDate,
-  hasLiked,
+  hasLikedPost,
   likePost,
   unlikePost,
 } from "../../../../Util/PostsAPI";
-import { Comment } from "../Comments/Comment/Comment";
 import { Comments } from "../Comments/Comments";
-
-type CommentType = {
-  messageId: string;
-  username: string;
-  userId: string;
-  likeCount: number;
-  comments?: CommentType[];
-};
 
 export type PostType = {
   _id: string;
@@ -27,7 +18,7 @@ export type PostType = {
   text: string;
   likeCount: number;
   createdAt: Date;
-  comments?: CommentType[];
+  numComments: number;
 };
 
 export type NewPostType = Omit<PostType, "_id" | "createdAt">;
@@ -40,13 +31,14 @@ export const Post = ({ post }: PostProps) => {
   const [postContent, setPostContent] = useState<PostType>(post);
   const [isLiked, setIsLiked] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+  const [lastSeenId, setLastSeenId] = useState("");
   const commentSectionRef = useRef<HTMLDivElement>(null);
   const likeBtnRef = useRef<HTMLDivElement>(null);
   const userId = "1";
 
   useEffect(() => {
     const checkPostLiked = async () => {
-      const isPostLiked = await hasLiked(post._id, userId);
+      const isPostLiked = await hasLikedPost(post._id, userId);
       if (isPostLiked && likeBtnRef.current != null) {
         likeBtnRef.current.style.color = "red";
         setIsLiked(true);
@@ -92,7 +84,7 @@ export const Post = ({ post }: PostProps) => {
       <div className={styles.postOptions}>
         <div className={styles.postOption} onClick={handleCommentClick}>
           <FontAwesomeIcon className={styles.postOptionIcon} icon={faComment} />
-          <p>{postContent.comments?.length}</p>
+          <p>{postContent.numComments}</p>
         </div>
         <div
           className={styles.postOption}
@@ -109,6 +101,8 @@ export const Post = ({ post }: PostProps) => {
       <Comments
         isCommentsOpen={isCommentsOpen}
         commentSectionRef={commentSectionRef}
+        postId={postContent._id}
+        setPostContent={setPostContent}
       />
     </div>
   );

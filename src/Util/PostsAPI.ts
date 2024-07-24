@@ -1,7 +1,11 @@
 import axios from "axios";
 import { NewPostType, PostType } from "../Pages/Posts/components/Post/Post";
+import { CommentType } from "../Pages/Posts/components/Comments/Comment/Comment";
+import { NewCommentType } from "../Pages/Posts/components/Comments/Comments";
 
 const API_BASE_URL = "http://localhost:3000";
+
+export class PostsAPI {}
 
 export const loadRecentPosts = async (): Promise<PostType[]> => {
   try {
@@ -13,9 +17,7 @@ export const loadRecentPosts = async (): Promise<PostType[]> => {
   }
 };
 
-export const createNewPost = async (
-  post: NewPostType
-): Promise<NewPostType> => {
+export const createNewPost = async (post: NewPostType): Promise<PostType> => {
   try {
     const response = await axios.post(`${API_BASE_URL}/posts`, post);
     return response.data;
@@ -25,12 +27,12 @@ export const createNewPost = async (
   }
 };
 
-export const hasLiked = async (
+export const hasLikedPost = async (
   postId: String,
   userId: String
 ): Promise<Boolean> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/isLiked`, {
+    const response = await axios.get(`${API_BASE_URL}/isPostLiked`, {
       params: {
         userId,
         postId,
@@ -45,7 +47,7 @@ export const hasLiked = async (
 
 export const likePost = async (postId: String, userId: String) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/like`, {
+    const response = await axios.post(`${API_BASE_URL}/likePost`, {
       userId,
       postId,
     });
@@ -57,7 +59,7 @@ export const likePost = async (postId: String, userId: String) => {
 
 export const unlikePost = async (postId: String, userId: String) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/unlike`, {
+    const response = await axios.post(`${API_BASE_URL}/unlikePost`, {
       userId,
       postId,
     });

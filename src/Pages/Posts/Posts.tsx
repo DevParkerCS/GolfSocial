@@ -4,6 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { NewPostType, Post } from "./components/Post/Post";
 import { PostType } from "./components/Post/Post";
 import { createNewPost, loadRecentPosts } from "../../Util/PostsAPI";
+import { Spinner } from "../../components/Spinner/Spinner";
 
 export const Posts = () => {
   const [charCount, setCharCount] = useState(0);
@@ -27,13 +28,14 @@ export const Posts = () => {
       username: "Th3RedMan",
       userId: "1",
       likeCount: 0,
-      comments: [],
+      numComments: 0,
       title: title.value,
       text: text.value,
     };
     try {
-      await createNewPost(newPost);
-      fetchPosts();
+      const post = await createNewPost(newPost);
+      setLoadedPosts((prevState) => [post, ...prevState]);
+      setCharCount(0);
       title.value = "";
       text.value = "";
     } catch (err) {
@@ -91,9 +93,11 @@ export const Posts = () => {
             </form>
           </section>
           <section className={styles.postsSection}>
-            {loadedPosts.map((post) => (
-              <Post key={post._id} post={post} />
-            ))}
+            {loadedPosts.length != 0 ? (
+              loadedPosts.map((post) => <Post key={post._id} post={post} />)
+            ) : (
+              <Spinner />
+            )}
           </section>
         </div>
       </div>

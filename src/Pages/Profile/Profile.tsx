@@ -1,35 +1,64 @@
 import Nav from "../../components/Nav/Nav";
 import styles from "./Profile.module.scss";
 import avatar from "../../assets/avatar.jpg";
+import { useState } from "react";
+import { ProfileNav } from "./components/ProfileNav/ProfileNav";
 
 export const Profile = () => {
+  const [ownsProfile, setOwnsProfile] = useState(true);
+  const [isFollowed, setIsFollowed] = useState(false);
+  const [followerCount, setFollowerCount] = useState(150);
+  const [followingCount, setFollowingCount] = useState(130);
+
+  const handleFollowClick = () => {
+    if (isFollowed) {
+      setFollowerCount(followerCount - 1);
+    } else {
+      setFollowerCount(followerCount + 1);
+    }
+    setIsFollowed(!isFollowed);
+  };
+
   return (
     <div className={styles.contentWrapper}>
       <Nav />
       <div className={styles.mainContentWrapper}>
         <div className={styles.profileWrapper}>
-          <div className={styles.profileNav}>
-            <div className={`${styles.profileNavItem} ${styles.activeNav}`}>
-              <h2>Profile</h2>
-            </div>
-            <div className={styles.profileNavItem}>
-              <h2>Courses</h2>
-            </div>
-            <div className={styles.profileNavItem}>
-              <h2>Posts</h2>
-            </div>
-            <div className={styles.profileNavItem}>
-              <h2>Settings</h2>
-            </div>
-          </div>
+          <ProfileNav ownsProfile={ownsProfile} />
           <div className={styles.profileInfo}>
-            <div>
-              <img className={styles.profileImg} src={avatar} />
-            </div>
-            <div>
-              <h2 className={styles.profileNameLabel}>Username:</h2>
+            <div className={styles.profileNameWrapper}>
               <p className={styles.profileNameInput}>Th3RedMan</p>
-              <button>Edit</button>
+            </div>
+            <div className={styles.followInfoWrapper}>
+              <div className={styles.followInfo}>
+                <div className={styles.followItem}>
+                  <h2 className={styles.followTitle}>Followers</h2>
+                  <h2 className={styles.followCount}>{followerCount}</h2>
+                </div>
+                <div className={styles.followItem}>
+                  <h2 className={styles.followTitle}>Following</h2>
+                  <h2 className={styles.followCount}>{followingCount}</h2>
+                </div>
+              </div>
+              {ownsProfile ? (
+                <button
+                  onClick={handleFollowClick}
+                  className={`${styles.followBtn} ${
+                    isFollowed ? styles.isFollowed : ""
+                  }`}
+                >
+                  Edit Profile
+                </button>
+              ) : (
+                <button
+                  onClick={handleFollowClick}
+                  className={`${styles.followBtn} ${
+                    isFollowed ? styles.isFollowed : ""
+                  }`}
+                >
+                  {isFollowed ? "Following" : "Follow"}
+                </button>
+              )}
             </div>
           </div>
 

@@ -1,3 +1,5 @@
+@use "../../styles/color/color" as *;
+
 .contentWrapper {
   background-image: linear-gradient(
       to right,
@@ -8,11 +10,11 @@
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .mainContentWrapper {
-  padding-top: 4rem;
+  padding-top: 2rem;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -20,71 +22,32 @@
 
 .profileWrapper {
   margin-top: 2rem;
-  border: 2px solid #ddd;
+  border: 2px solid white;
   width: 75%;
   border-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ddd;
+  box-shadow: 0 4px 8px black;
   overflow: hidden;
   backdrop-filter: blur(10px);
-  transition: transform 0.3s;
-}
-
-.profileNav {
-  display: flex;
-  border-bottom: 2px solid #ddd;
-  background-color: #f8f9fa;
-
-  .profileNavItem {
-    font-size: 1.5rem;
-    padding: 1rem 2rem;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    background-color: transparent;
-
-    &.activeNav {
-      background-color: #ffd700;
-      color: #fff;
-      font-weight: bold;
-      border-top-left-radius: 15px;
-    }
-
-    &:hover {
-      background-color: #ffd700;
-      color: #fff;
-    }
-  }
+  transition: transform 0.2s;
 }
 
 .profileInfo {
-  display: flex;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid white;
   padding: 2rem;
+}
+
+.profileNameWrapper {
   align-items: center;
-}
-
-.profileImg {
-  width: 200px;
-  height: 200px;
-  border: 2px solid #ddd;
-  border-radius: 50%;
-  margin-right: 2rem;
-  object-fit: cover;
-}
-
-.profileNameLabel {
-  font-size: 1.75rem;
-  display: block;
-  margin-bottom: 0.5rem;
+  justify-content: center;
 }
 
 .profileNameInput {
-  font-size: 1.5rem;
-  border-radius: 15px;
-  padding: 0.5rem;
-  border: 2px solid #ddd;
-  width: 100%;
+  font-size: 4rem;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: bolder;
 }
 
 .profileStatsWrapper {
@@ -96,7 +59,7 @@
     flex: 1;
     padding: 1rem;
     color: rgba(0, 0, 0, 0.8);
-    border-right: 2px solid #ddd;
+    border-right: 2px solid white;
     text-align: center;
   }
 
@@ -106,8 +69,10 @@
 
   .scoreStatsTitle,
   .courseStatsTitle {
-    font-size: 2rem;
-    padding: 1rem;
+    font-size: 2.5rem;
+    font-weight: bolder;
+    text-decoration: underline;
+    margin: 1rem;
     color: #333;
   }
 
@@ -115,5 +80,53 @@
   .courseStat {
     padding: 0.5rem 1.5rem;
     font-size: 1.25rem;
+  }
+}
+
+.followInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.followInfo {
+  display: flex;
+}
+
+.followItem {
+  margin: 2rem;
+  margin-top: 0rem;
+  .followTitle {
+    font-size: 2rem;
+  }
+
+  .followCount {
+    font-size: 2.5rem;
+  }
+}
+
+.followBtn {
+  width: 400px;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s linear;
+  color: $primary-color;
+  background-color: $neutral-light-color;
+  border: 2px solid $secondary-color;
+
+  &:hover {
+    background-color: $neutral-dark-color;
+    color: $accent-color;
+    border: 2px solid $accent-color;
+  }
+
+  &.isFollowed {
+    background-color: $neutral-dark-color;
+    color: $accent-color;
+    border: 2px solid $accent-color;
   }
 }
