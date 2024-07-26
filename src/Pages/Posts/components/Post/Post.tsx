@@ -31,7 +31,6 @@ export const Post = ({ post }: PostProps) => {
   const [postContent, setPostContent] = useState<PostType>(post);
   const [isLiked, setIsLiked] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-  const [lastSeenId, setLastSeenId] = useState("");
   const commentSectionRef = useRef<HTMLDivElement>(null);
   const likeBtnRef = useRef<HTMLDivElement>(null);
   const userId = "1";

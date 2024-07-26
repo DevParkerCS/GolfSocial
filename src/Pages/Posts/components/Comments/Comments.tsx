@@ -1,15 +1,10 @@
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import styles from "./Comments.module.scss";
 import { Comment, CommentType } from "./Comment/Comment";
 import { PostType } from "../Post/Post";
 import { getComments, postComment } from "../../../../Util/CommentAPI";
 import _ from "lodash";
+import { Spinner } from "../../../../components/Spinner/Spinner";
 
 type CommentsProps = {
   isCommentsOpen: boolean;
@@ -29,7 +24,8 @@ export const Comments = ({
   const [isPadded, setIsPadded] = useState(false);
   const [charCount, setCharCount] = useState(0);
   const [postComments, setPostComments] = useState<CommentType[]>([]);
-  const [hasLoaded, setHasLoaded] = useState(false);
+  const [hasLoadedComments, setHasLoadedComments] = useState(false);
+  const [isLoadingComments, setIsLoadingComments] = useState(false);
   const maxCharCount = 250;
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -85,17 +81,23 @@ export const Comments = ({
   }, [isCommentsOpen]);
 
   useEffect(() => {
-    const fetchComments = async () => {
-      const loadedComments = await getComments(postId);
-      setPostComments(loadedComments);
-    };
+    if (!hasLoadedComments && isCommentsOpen) {
+      const fetchComments = async () => {
+        console.log("Fetching");
+        setIsLoadingComments(true);
+        const loadedComments = await getComments(postId);
+        setIsLoadingComments(false);
+        setPostComments(loadedComments);
+      };
 
-    fetchComments();
-  }, [postId]);
+      fetchComments();
+      setHasLoadedComments(true);
+    }
+  }, [hasLoadedComments, isCommentsOpen, postId]);
 
   return (
     <div
-      className={`${styles.commentsWrapper} ${
+      className={`${styles.commentsSectionWrapper} ${
         isCommentsOpen ? styles.active : ""
       } ${isPadded ? styles.padded : ""}`}
       ref={commentSectionRef}
@@ -114,15 +116,19 @@ export const Comments = ({
           <button className={styles.createCommentBtn}>Comment</button>
         </div>
       </form>
-      {postComments.length > 0 ? (
-        postComments.map((c, i) => (
-          <Comment postId={postId} comment={c} key={c._id}></Comment>
-        ))
-      ) : (
-        <h2 className={styles.noCommentTxt}>
-          No Comments To Show Yet! Be The First To Comment
-        </h2>
-      )}
+      <div className={styles.commentsWrapper}>
+        {isLoadingComments ? (
+          <Spinner />
+        ) : postComments.length > 0 ? (
+          postComments.map((c, i) => (
+            <Comment postId={postId} comment={c} key={c._id}></Comment>
+          ))
+        ) : (
+          <h2 className={styles.noCommentTxt}>
+            No Comments To Show Yet! Be The First To Comment
+          </h2>
+        )}
+      </div>
     </div>
   );
 };

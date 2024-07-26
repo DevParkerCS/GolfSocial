@@ -1,6 +1,6 @@
 @use "../../../../styles/color/color" as *;
 
-.commentsWrapper {
+.commentsSectionWrapper {
   background-color: $neutral-light-color;
   max-height: 0px;
   overflow: hidden;
@@ -72,4 +72,8 @@
   .maxCharCount {
     color: red;
   }
+}
+
+.commentsWrapper {
+  position: relative;
 }
