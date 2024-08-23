@@ -1,0 +1,27 @@
+@use "../../styles/color/color" as *;
+
+.checkMarksWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.checkMarkWrapper {
+  cursor: pointer;
+  margin: 0rem 2rem;
+}
+
+.playedCheck {
+  font-size: 1.5rem;
+  width: 35px;
+  height: 35px;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  color: $primary-color;
+}
+
+.playedCheckLabel {
+  font-size: 1.5rem;
+}

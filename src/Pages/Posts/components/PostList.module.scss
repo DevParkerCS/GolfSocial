@@ -1,0 +1,126 @@
+@use "../../../styles/color/color" as *;
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4rem;
+  // background-color: rgba(black, 0.5);
+  background-image: linear-gradient(rgba(black, 0.9), rgba(black, 0.9)),
+    url("../../../assets/course.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+
+  &.profileStyle {
+    background-image: none;
+  }
+}
+
+.centerWrapper {
+  width: 50%;
+  background-color: white;
+  box-shadow: 0px 0px 10px 2px black;
+
+  &.profileStyle {
+    width: 70%;
+  }
+}
+
+.createPostForm {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border: 2px solid #ddd;
+  border-top: none;
+
+  .createPostSubmit {
+    align-self: flex-end;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    cursor: pointer;
+    color: $neutral-light-color;
+    background-color: $primary-color;
+    transition: all 0.2s linear;
+
+    &:hover {
+      background-color: $neutral-light-color;
+      color: $primary-color;
+    }
+  }
+}
+
+.createPostInputWrapper {
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(black, 0.8);
+  width: 100%;
+
+  .createPostInput {
+    font-size: 1.5rem;
+    border: none;
+    width: 100%;
+    padding: 0.5rem;
+    resize: none;
+    overflow: visible;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .createPostTitle {
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+  }
+}
+
+.createPostInfoWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem;
+  .createPostChars {
+    color: black;
+    font-weight: bold;
+    margin-right: 1.5rem;
+
+    &.maxCount {
+      color: red;
+    }
+  }
+}
+
+.postsSection {
+  min-height: 100vh;
+}
+
+.spinnerWrapper {
+  position: relative;
+
+  &.active {
+    height: 500px;
+  }
+}
+
+.loadMorePosts {
+  text-align: center;
+  padding: 0.5rem;
+  background-color: $neutral-light-color;
+}
+
+.maxPostsLoaded {
+  text-align: center;
+  padding: 0.75rem;
+  background-color: $neutral-light-color;
+
+  .maxTitle {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .maxSubtitle {
+    color: $neutral-dark-color;
+  }
+}

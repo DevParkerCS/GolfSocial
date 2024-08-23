@@ -1,0 +1,57 @@
+@use "../../../../styles/color/color" as *;
+
+.courseWrapper {
+  width: 80%;
+}
+
+.course {
+  background-color: $neutral-light-color;
+  padding: 1.5rem 2rem;
+  margin: 0.1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  transition: all 0.25s, transform 0.3s;
+
+  .courseName {
+    color: black;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: $primary-color;
+  }
+
+  .courseLoc,
+  .coursePlays {
+    font-size: 1rem;
+    color: $secondary-color;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .courseDetails {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .coursePlays {
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  .courseCTA {
+    position: absolute;
+    color: black;
+    display: none;
+  }
+
+  &:hover .courseCTA {
+    display: block;
+    left: 50%;
+    transform: translate(-50%);
+  }
+}

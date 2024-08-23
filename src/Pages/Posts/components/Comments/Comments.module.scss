@@ -74,6 +74,10 @@
   }
 }
 
-.commentsWrapper {
+.spinnerSection {
   position: relative;
+
+  &.active {
+    height: 100px;
+  }
 }

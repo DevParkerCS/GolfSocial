@@ -1,0 +1,100 @@
+@use "../../styles/font/font" as *;
+@use "../../styles//color/color" as *;
+
+body:has(.modalWrapper.active) {
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.modalWrapper {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $neutral-light-color;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+  border-radius: 25px;
+  width: 40vw;
+  pointer-events: auto;
+  cursor: default;
+
+  &.active {
+    opacity: 1;
+    z-index: 12;
+    padding: 2rem;
+  }
+
+  .exitBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.1s linear;
+    padding: 0.1rem;
+
+    &:hover {
+      color: red;
+    }
+  }
+}
+
+.modalOutsideWrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: rgba(black, 0.5);
+  z-index: -1;
+  opacity: 0;
+  cursor: pointer;
+
+  &.active {
+    opacity: 1;
+    z-index: 11;
+  }
+}
+
+.title {
+  font-size: $font-size-ml;
+  color: $primary-color;
+}
+
+.location {
+  font-size: $font-size-sm;
+  color: $secondary-color;
+  margin-bottom: 2rem;
+}
+
+.genInfo {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  color: $neutral-dark-color;
+  padding: 0rem 2rem;
+  padding-bottom: 0.1rem;
+}
+
+.btnWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.playedBtn {
+  font-size: $font-size-sm;
+  border-radius: 15px;
+  padding: 0.5rem;
+  cursor: pointer;
+  background-color: $neutral-dark-color;
+  color: $neutral-light-color;
+}
+
+.modalInfoWrapper {
+  display: flex;
+  justify-content: center;
+}

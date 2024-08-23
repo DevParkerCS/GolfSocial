@@ -1,0 +1,23 @@
+@use "../../../../styles/color/color" as *;
+
+.resultsWrapper {
+  background-color: white;
+  max-height: 0px;
+  height: 300px;
+  width: 100%;
+  overflow: hidden;
+  transition: max-height 0.2s linear;
+
+  &.active {
+    max-height: 200px;
+    overflow-y: scroll;
+    border: 2px solid black;
+    border-top: none;
+  }
+}
+
+.result {
+  border-bottom: 2px solid $neutral-dark-color;
+  padding: 0.5rem;
+  cursor: pointer;
+}

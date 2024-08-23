@@ -4,13 +4,27 @@ import { CommentType } from "../Pages/Posts/components/Comments/Comment/Comment"
 
 const API_BASE_URL = "http://localhost:3000";
 
-export const getComments: (postId: String) => Promise<CommentType[]> = async (
-  postId: String
+type LoadedCommentType = {
+  comments: CommentType[];
+  nextPage: number;
+  date: string;
+};
+
+export const getComments: (
+  postId: String,
+  page?: number,
+  timeStamp?: string
+) => Promise<LoadedCommentType> = async (
+  postId: String,
+  page?,
+  timeStamp?: string
 ) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/comments`, {
       params: {
         postId,
+        page,
+        timeStamp,
       },
     });
     return response.data;

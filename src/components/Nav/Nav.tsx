@@ -25,9 +25,9 @@ const Nav = () => {
           </li>
           <li
             className={styles.navListItem}
-            onClick={() => navigate("/addscore")}
+            onClick={() => navigate("/scores")}
           >
-            Add Score
+            Scores
           </li>
           {isLoggedIn ? (
             <>
@@ -40,7 +40,12 @@ const Nav = () => {
               <li className={styles.navListItem}>Logout</li>
             </>
           ) : (
-            <li className={`${styles.navListItem}`}>Login</li>
+            <li
+              className={`${styles.navListItem}`}
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </li>
           )}
         </ul>
       </div>

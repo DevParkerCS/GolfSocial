@@ -5,11 +5,21 @@ import { NewCommentType } from "../Pages/Posts/components/Comments/Comments";
 
 const API_BASE_URL = "http://localhost:3000";
 
-export class PostsAPI {}
+export type LoadedPostsType = {
+  nextPage: number;
+  date: string;
+  posts: PostType[];
+};
 
-export const loadRecentPosts = async (): Promise<PostType[]> => {
+export const loadRecentPosts = async (
+  userId?: string,
+  page = 1,
+  date = new Date().toISOString()
+): Promise<LoadedPostsType> => {
   try {
-    const response = await axios.get<PostType[]>(`${API_BASE_URL}/posts`);
+    const response = await axios.get<LoadedPostsType>(`${API_BASE_URL}/posts`, {
+      params: { page, date, userId },
+    });
     return response.data;
   } catch (err) {
     console.log(err);

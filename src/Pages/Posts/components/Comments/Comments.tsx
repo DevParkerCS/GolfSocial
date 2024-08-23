@@ -3,8 +3,9 @@ import styles from "./Comments.module.scss";
 import { Comment, CommentType } from "./Comment/Comment";
 import { PostType } from "../Post/Post";
 import { getComments, postComment } from "../../../../Util/CommentAPI";
-import _ from "lodash";
+import _, { last } from "lodash";
 import { Spinner } from "../../../../components/Spinner/Spinner";
+import { useInView } from "react-intersection-observer";
 
 type CommentsProps = {
   isCommentsOpen: boolean;
@@ -14,6 +15,11 @@ type CommentsProps = {
 };
 
 export type NewCommentType = Omit<CommentType, "_id">;
+
+type LastCommentInfo = {
+  nextPage: number;
+  timeStamp: string;
+};
 
 export const Comments = ({
   isCommentsOpen,
@@ -26,12 +32,46 @@ export const Comments = ({
   const [postComments, setPostComments] = useState<CommentType[]>([]);
   const [hasLoadedComments, setHasLoadedComments] = useState(false);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
+  const [maxCommentsLoaded, setMaxCommentsLoaded] = useState(false);
+  const [lastcommentInfo, setLastCommentInfo] =
+    useState<LastCommentInfo | null>(null);
+  const { ref, inView, entry } = useInView({ threshold: 0 });
   const maxCharCount = 250;
+
+  useEffect(() => {
+    if (inView && isCommentsOpen && hasLoadedComments) {
+      fetchComments();
+    }
+  }, [inView]);
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setCharCount(e.target.value.length);
     e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
+  };
+
+  const fetchComments = async () => {
+    if (!maxCommentsLoaded) {
+      setIsLoadingComments(true);
+      const loadedComments = await getComments(
+        postId,
+        lastcommentInfo?.nextPage,
+        lastcommentInfo?.timeStamp
+      );
+      setIsLoadingComments(false);
+      setPostComments((prevState) => [
+        ...prevState,
+        ...loadedComments.comments,
+      ]);
+      setHasLoadedComments(true);
+      lastcommentInfo?.nextPage === loadedComments.nextPage
+        ? setMaxCommentsLoaded(true)
+        : setMaxCommentsLoaded(false);
+      setLastCommentInfo({
+        nextPage: loadedComments.nextPage,
+        timeStamp: loadedComments.date,
+      });
+    }
   };
 
   // Upload new comment on post
@@ -53,7 +93,10 @@ export const Comments = ({
           ...prevState,
           numComments: (prevState.numComments += 1),
         }));
-        setPostComments((prevState) => [_.cloneDeep(comment), ...prevState]);
+        setPostComments((prevState) => {
+          console.log(prevState);
+          return [_.cloneDeep(comment), ...prevState];
+        });
         setCharCount(0);
         text.value = "";
       } catch (err) {
@@ -82,16 +125,7 @@ export const Comments = ({
 
   useEffect(() => {
     if (!hasLoadedComments && isCommentsOpen) {
-      const fetchComments = async () => {
-        console.log("Fetching");
-        setIsLoadingComments(true);
-        const loadedComments = await getComments(postId);
-        setIsLoadingComments(false);
-        setPostComments(loadedComments);
-      };
-
       fetchComments();
-      setHasLoadedComments(true);
     }
   }, [hasLoadedComments, isCommentsOpen, postId]);
 
@@ -117,9 +151,7 @@ export const Comments = ({
         </div>
       </form>
       <div className={styles.commentsWrapper}>
-        {isLoadingComments ? (
-          <Spinner />
-        ) : postComments.length > 0 ? (
+        {postComments.length > 0 ? (
           postComments.map((c, i) => (
             <Comment postId={postId} comment={c} key={c._id}></Comment>
           ))
@@ -128,6 +160,16 @@ export const Comments = ({
             No Comments To Show Yet! Be The First To Comment
           </h2>
         )}
+        <div
+          className={`${styles.spinnerSection} ${
+            isLoadingComments ? styles.active : ""
+          }`}
+        >
+          {isLoadingComments ? <Spinner /> : ""}
+        </div>
+      </div>
+      <div className={styles.moreComments} ref={ref}>
+        Load More Comments
       </div>
     </div>
   );
