@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Course.module.scss";
 import { CourseModal } from "../../../../components/CourseModal/CourseModal";
 
 export type CourseType = {
-  name: string;
-  state: string;
-  city: string;
-  par: number;
-  yards: number;
-  totalPlays: number;
+  courseId: string;
+  courseName: string;
+  courseCity: string;
+  courseState: string;
+  courseYards: number;
+  coursePar: number;
   lowestScore: number;
   highestScore: number;
-  totalScores: number;
-  _id: string;
+  totalTimesPlayed: number;
+  totalScoreSum: number;
 };
 
 type CourseProps = {
@@ -32,14 +32,14 @@ export const Course = ({ courseInfo }: CourseProps) => {
 
       <div className={styles.course} onClick={() => setModalOpen(true)}>
         <div>
-          <h2 className={styles.courseName}>{courseInfo.name}</h2>
+          <h2 className={styles.courseName}>{courseInfo.courseName}</h2>
           <h3 className={styles.courseLoc}>
-            {courseInfo.city}, {courseInfo.state}
+            {courseInfo.courseCity}, {courseInfo.courseState}
           </h3>
         </div>
         <h2 className={styles.courseCTA}>Click To See More</h2>
         <h2 className={styles.coursePlays}>
-          Total Plays: {courseInfo.totalPlays || 0}
+          Total Plays: {courseInfo.totalTimesPlayed || 0}
         </h2>
       </div>
     </div>

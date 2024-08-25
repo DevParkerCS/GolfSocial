@@ -4,6 +4,7 @@ import styles from "./BrowseCourses.module.scss";
 import { Course, CourseType } from "./components/course/Course";
 import axios from "axios";
 import { Spinner } from "../../components/Spinner/Spinner";
+import { fetchTopCourses } from "../../Util/GolfCourseAPI";
 
 export const BrowseCourses = () => {
   const [loadedCourses, setLoadedCourses] = useState<CourseType[]>([]);
@@ -12,21 +13,17 @@ export const BrowseCourses = () => {
   const API_BASE_URL = "http://localhost:3000";
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const callFetchAPI = async () => {
       try {
-        const courses = await axios.get<CourseType[]>(
-          `${API_BASE_URL}/topCourses`
-        );
-        setLoadedCourses(courses.data);
-      } catch {
-        setError(
-          "There was an error loading courses, please refresh page to try again."
-        );
-      } finally {
+        setIsLoading(true);
+        const topCourses = await fetchTopCourses();
+        setLoadedCourses(topCourses);
         setIsLoading(false);
+      } catch (err) {
+        setError("Error Loading top Courses");
       }
     };
-    fetchCourses();
+    callFetchAPI();
   }, []);
 
   return (
@@ -47,7 +44,9 @@ export const BrowseCourses = () => {
             ) : error ? (
               error
             ) : (
-              loadedCourses.map((c) => <Course key={c._id} courseInfo={c} />)
+              loadedCourses.map((c) => (
+                <Course key={c.courseId} courseInfo={c} />
+              ))
             )}
           </div>
         </section>
