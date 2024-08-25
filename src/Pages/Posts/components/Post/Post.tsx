@@ -33,7 +33,7 @@ export const Post = ({ post }: PostProps) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const commentSectionRef = useRef<HTMLDivElement>(null);
   const likeBtnRef = useRef<HTMLDivElement>(null);
-  const userId = "1";
+  const userId = "2";
 
   useEffect(() => {
     const checkPostLiked = async () => {

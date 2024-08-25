@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { usePosts } from "../../../hooks/usePosts";
 import { Spinner } from "../../../components/Spinner/Spinner";
@@ -31,6 +31,8 @@ export const PostList = ({ userId, inProfile = false }: PostListProps) => {
       fetchPosts();
     }
   }, [inView]);
+
+  //Basic check for bad words
 
   return (
     <div

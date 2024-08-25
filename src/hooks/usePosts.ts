@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { loadRecentPosts, createNewPost } from "../Util/PostsAPI";
 import { PostType, NewPostType } from "../Pages/Posts/components/Post/Post";
+import { badWords } from "../BadWords";
 
 type LastPostInfoType = {
   nextPage: number;
@@ -58,6 +59,14 @@ export const usePosts = ({ userId }: UsePostsProps) => {
     const form = e.target as HTMLFormElement;
     const title = form.elements[0] as HTMLInputElement;
     const text = form.elements[1] as HTMLTextAreaElement;
+    const words = [...title.value.split(" "), ...text.value.split(" ")];
+    const hasBadWords = words.some((word) => badWords.has(word));
+
+    if (hasBadWords) {
+      console.log("Bad Word Found!");
+      return;
+    }
+
     const newPost: NewPostType = {
       username: "Th3RedMan", // Replace with the actual username if available
       userId: userId || "1", // Replace with actual userId
