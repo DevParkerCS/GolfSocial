@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import styles from "./AddScore.module.scss";
 import Nav from "../../components/Nav/Nav";
 import { CourseSearch } from "./components/SearchCourse/CourseSearch";
-import { CourseType } from "../BrowseCourses/components/course/Course";
 import { CheckMarksBtn } from "../../components/CheckMarks/CheckMarks";
 import { PostPreview } from "./components/PostPreview/PostPreview";
+import axios from "axios";
+import { CourseType } from "../BrowseCourses/components/course/Course";
 
 export const AddScore = () => {
   const [hasPlayed, setHasPlayed] = useState(false);
   const [score, setScore] = useState("");
   const [course, setCourse] = useState<CourseType | null>(null);
   const [makePost, setMakePost] = useState(false);
+  const userId = "1";
 
   useEffect(() => {
     setCourse(null);
@@ -18,7 +20,24 @@ export const AddScore = () => {
     setScore("");
   }, [hasPlayed]);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    const updateData = {
+      courseId: course?.courseId,
+      courseName: course?.courseName,
+      courseCity: course?.courseCity,
+      courseState: course?.courseState,
+      score: parseInt(score),
+    };
+    try {
+      await axios.put(
+        `http://localhost:3000/playedCourses/${userId}`,
+        updateData
+      );
+      console.log("done");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className={styles.addScoreWrapper}>
@@ -42,9 +61,7 @@ export const AddScore = () => {
 
       {course && (
         <div className={styles.scoreEntryWrapper}>
-          <h2 className={styles.questionTitle}>
-            Enter your score: {/* for {course.name} */}
-          </h2>
+          <h2 className={styles.questionTitle}>Enter your score:</h2>
           <input
             type="number"
             placeholder="72"

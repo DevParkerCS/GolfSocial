@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { CourseType } from "../../../BrowseCourses/components/course/Course";
 import styles from "../../AddScore.module.scss";
 import { SearchResults } from "../SearchResults/SearchResults";
 import { useCourseSearch } from "../../../../hooks/useCourseSearch";
 import { useCourseSearchHandler } from "../../../../hooks/useCourseSearchHandler";
+import { CourseType } from "../../../BrowseCourses/components/course/Course";
 
 type PropsType = {
   setCourse: React.Dispatch<React.SetStateAction<CourseType | null>>;
@@ -12,20 +12,18 @@ type PropsType = {
 
 export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
   const userId = "1";
+  const { courses, loading, error, fetchCourses } = useCourseSearch(
+    hasPlayed,
+    userId
+  );
+
   const {
-    dropdownActive,
-    query,
     inputRef,
     handleChange,
     handleCourseSelect,
     isCoursePicked,
     setIsCoursePicked,
-  } = useCourseSearchHandler();
-  const { courses, loading, error, setCourses } = useCourseSearch(
-    query,
-    hasPlayed,
-    userId
-  );
+  } = useCourseSearchHandler(fetchCourses);
   const [isSearching, setIsSearching] = useState(true);
 
   useEffect(() => {
@@ -35,18 +33,17 @@ export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
-    setCourses([]);
     setIsCoursePicked(false);
+    fetchCourses("");
   }, [hasPlayed]);
 
-  const handleUnlock = () => {
+  const handleChangeClick = () => {
     setIsCoursePicked(false);
     setCourse(null);
-    setCourses([]);
-
     if (inputRef.current) {
       inputRef.current.value = "";
     }
+    fetchCourses("");
   };
 
   return (
@@ -68,18 +65,20 @@ export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
           <div className={styles.courseInputWrapper}>
             <input
               ref={inputRef}
-              onChange={handleChange}
-              className={`${styles.courseInput} ${hasPlayed && styles.round} ${
-                isCoursePicked && styles.picked
-              } ${dropdownActive && styles.dropDown}`}
+              onChange={() => !isCoursePicked && handleChange()}
+              className={`${styles.courseInput} ${hasPlayed && styles.played} ${
+                isCoursePicked ? styles.picked : styles.dropDown
+              }`}
               type="text"
-              disabled={isCoursePicked || (loading && hasPlayed)}
-              placeholder={loading && hasPlayed ? "Loading Played Courses" : ""}
+              readOnly={isCoursePicked || (loading && hasPlayed)}
+              placeholder={
+                loading && hasPlayed ? "Loading Played Courses" : "Search..."
+              }
             />
             {isCoursePicked && (
               <button
                 className={`${styles.changeBtn} ${!hasPlayed && styles.played}`}
-                onClick={handleUnlock}
+                onClick={handleChangeClick}
               >
                 Change
               </button>
@@ -88,7 +87,7 @@ export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
           <SearchResults
             courses={courses}
             onCourseSelect={(course) => handleCourseSelect(course, setCourse)}
-            active={dropdownActive}
+            active={!isCoursePicked}
           />
         </div>
       ) : (

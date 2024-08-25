@@ -38,18 +38,18 @@ export const CourseModal = ({
         >
           &times;
         </div>
-        <h2 className={styles.title}>{courseInfo.name}</h2>
+        <h2 className={styles.title}>{courseInfo.courseName}</h2>
         <h3 className={styles.location}>
-          {courseInfo.city}, {courseInfo.state}
+          {courseInfo.courseCity}, {courseInfo.courseState}
         </h3>
         <div className={styles.modalInfoWrapper}>
           <div>
             <h3 className={styles.genInfo}>
-              Yardage: {courseInfo.yards} yards
+              Yardage: {courseInfo.courseYards} yards
             </h3>
-            <h3 className={styles.genInfo}>Par: {courseInfo.par}</h3>
+            <h3 className={styles.genInfo}>Par: {courseInfo.coursePar}</h3>
             <h3 className={styles.genInfo}>
-              Total Plays: {courseInfo.totalPlays || 0}
+              Total Plays: {courseInfo.totalTimesPlayed || 0}
             </h3>
           </div>
           <div>
@@ -61,7 +61,7 @@ export const CourseModal = ({
             </h3>
             <h3 className={styles.genInfo}>
               Average Score:{" "}
-              {courseInfo.totalScores / courseInfo.totalPlays || "N/A"}
+              {courseInfo.totalScoreSum / courseInfo.totalTimesPlayed || "N/A"}
             </h3>
           </div>
         </div>

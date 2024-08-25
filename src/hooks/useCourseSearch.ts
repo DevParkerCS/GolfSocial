@@ -1,38 +1,47 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { CourseType } from "../Pages/BrowseCourses/components/course/Course";
+import { fetchTopCourses } from "../Util/GolfCourseAPI";
 
-export const useCourseSearch = (
-  query: string,
-  hasPlayed: boolean,
-  userId: string
-) => {
+export const useCourseSearch = (hasPlayed: boolean, userId: string) => {
   const [courses, setCourses] = useState<CourseType[]>([]);
+  const [topCourses, setTopCourses] = useState<CourseType[] | null>(null);
   const [playedCourses, setPlayedCourses] = useState<CourseType[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const API_BASE_URL = "http://localhost:3000";
 
-  useEffect(() => {
-    hasPlayed ? fetchPlayedCourses() : fetchCourses();
-  }, [query, hasPlayed]);
+  const fetchCourses = (query: string) => {
+    hasPlayed ? fetchPlayedCourses(query) : fetchAllCourses(query);
+  };
 
-  const fetchCourses = async () => {
-    if (!query) {
-      console.log("okay");
-      setCourses([]);
-      return;
-    }
+  const fetchAllCourses = async (query: string) => {
     setLoading(true);
     setError(null);
+    if (!query && topCourses) {
+      setCourses(topCourses);
+      return;
+    } else if (!query && !topCourses) {
+      try {
+        const fetchedTopCourses = await fetchTopCourses();
+        setTopCourses(fetchedTopCourses);
+        setCourses(fetchedTopCourses);
+        setLoading(false);
+        return;
+      } catch (err) {
+        setError("Error loading courses");
+      }
+    }
 
     try {
-      console.log("TRYING!");
-      const response = await axios.get(`${API_BASE_URL}/searchCourses`, {
-        params: {
-          query,
-        },
-      });
+      const response = await axios.get<CourseType[]>(
+        `${API_BASE_URL}/searchCourses`,
+        {
+          params: {
+            query,
+          },
+        }
+      );
       setCourses(response.data);
     } catch (err) {
       setError("Failed to fetch courses");
@@ -41,22 +50,49 @@ export const useCourseSearch = (
     }
   };
 
-  const fetchPlayedCourses = async () => {
-    setLoading(true);
-    setError(null);
-    console.log("LOADING");
-    await setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    setError(null);
-
-    return;
-
-    // if (playedCourses !== null) {
-    //   setCourses(playedCourses);
-    // } else {
-    // }
+  type FetchedPlayedResponse = {
+    userId: string;
+    playedCourses: CourseType[];
   };
 
-  return { courses, loading, error, setCourses };
+  const fetchPlayedCourses = async (query: string) => {
+    setLoading(true);
+    setError(null);
+
+    if (!query && playedCourses) {
+      setCourses(playedCourses);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      if (playedCourses) {
+        const filteredCourses = playedCourses.filter((c) => {
+          return c.courseName.toLowerCase().includes(query.toLowerCase());
+        });
+        setCourses(filteredCourses);
+        setLoading(false);
+        return;
+      } else {
+        const response = await axios.get<FetchedPlayedResponse>(
+          `${API_BASE_URL}/playedCourses/${userId}`
+        );
+        setPlayedCourses(response.data.playedCourses);
+        setCourses(response.data.playedCourses);
+        setLoading(false);
+        setError(null);
+      }
+    } catch (err) {
+      setError("Failed to fetch played courses");
+    }
+  };
+
+  return {
+    courses,
+    playedCourses,
+    loading,
+    error,
+    setCourses,
+    fetchCourses,
+  };
 };
