@@ -76,8 +76,12 @@
 
 .spinnerSection {
   position: relative;
+  height: 100px;
+}
 
-  &.active {
-    height: 100px;
-  }
+.moreComments {
+  font-size: 1.25rem;
+  text-align: center;
+  padding: 0.25rem;
+  font-weight: bold;
 }

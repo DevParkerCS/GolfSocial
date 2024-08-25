@@ -27,7 +27,7 @@ export const Comment = ({ comment, postId }: CommentProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const userId = "1";
 
-  const handleClick = async () => {
+  const handleLikeClick = async () => {
     setIsLiked(!isLiked);
     setCommentContent((prevState) => ({
       ...prevState,
@@ -58,7 +58,7 @@ export const Comment = ({ comment, postId }: CommentProps) => {
       </div>
       <div
         className={`${styles.likeWrapper} ${isLiked ? styles.isLiked : ""}`}
-        onClick={handleClick}
+        onClick={handleLikeClick}
       >
         <FontAwesomeIcon
           className={`${styles.postOptionIcon} ${styles.postLikeIcon}`}
