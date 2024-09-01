@@ -2,7 +2,7 @@ import axios from "axios";
 import { CourseType } from "../Pages/BrowseCourses/components/course/Course";
 
 // Define the base URL for your API
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "http://localhost:3000/api";
 
 export const fetchTopCourses = async (): Promise<CourseType[]> => {
   try {

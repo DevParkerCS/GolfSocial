@@ -5,7 +5,7 @@ import styles from "./SearchResults.module.scss";
 type Props = {
   active: boolean;
   courses: CourseType[];
-  onCourseSelect: (course: CourseType) => void;
+  onCourseSelect?: (course: CourseType) => void;
 };
 
 export const SearchResults = ({ active, courses, onCourseSelect }: Props) => {
@@ -24,12 +24,17 @@ export const SearchResults = ({ active, courses, onCourseSelect }: Props) => {
 
 type ResultProps = {
   course: CourseType;
-  onCourseSelect: (course: CourseType) => void;
+  onCourseSelect?: (course: CourseType) => void;
 };
 
 const Result = ({ course, onCourseSelect }: ResultProps) => {
   return (
-    <div className={styles.result} onClick={() => onCourseSelect(course)}>
+    <div
+      className={styles.result}
+      onClick={
+        onCourseSelect ? () => onCourseSelect(course) : () => console.log("IDK")
+      }
+    >
       <h3 className={styles.courseName}>{course.courseName}</h3>
       <p className={styles.courseLoc}>
         {course.courseCity}, {course.courseState}

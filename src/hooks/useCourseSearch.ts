@@ -9,7 +9,7 @@ export const useCourseSearch = (hasPlayed: boolean, userId: string) => {
   const [playedCourses, setPlayedCourses] = useState<CourseType[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const API_BASE_URL = "http://localhost:3000";
+  const API_BASE_URL = "http://localhost:3000/api";
 
   const fetchCourses = (query: string) => {
     hasPlayed ? fetchPlayedCourses(query) : fetchAllCourses(query);

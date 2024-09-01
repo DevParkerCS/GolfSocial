@@ -2,7 +2,7 @@ import axios from "axios";
 import { NewCommentType } from "../Pages/Posts/components/Comments/Comments";
 import { CommentType } from "../Pages/Posts/components/Comments/Comment/Comment";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "http://localhost:3000/api";
 
 type LoadedCommentType = {
   comments: CommentType[];

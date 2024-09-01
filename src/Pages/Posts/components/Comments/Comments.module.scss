@@ -1,7 +1,7 @@
 @use "../../../../styles/color/color" as *;
 
 .commentsSectionWrapper {
-  background-color: $neutral-light-color;
+  background-color: rgba($neutral-light-color, 0.4);
   max-height: 0px;
   overflow: hidden;
   transition: max-height 0.2s linear;

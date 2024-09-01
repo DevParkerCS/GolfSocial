@@ -1,5 +1,6 @@
 @use "../../styles/font/font" as *;
 @use "../../styles//color/color" as *;
+@import "../../styles/scrollbar/scrollbar.scss";
 
 body:has(.modalWrapper.active) {
   max-height: 100vh;
@@ -14,16 +15,24 @@ body:has(.modalWrapper.active) {
   background-color: $neutral-light-color;
   z-index: -1;
   opacity: 0;
-  transition: opacity 0.2s linear;
   border-radius: 25px;
-  width: 40vw;
+  width: fit-content;
   pointer-events: auto;
   cursor: default;
+  height: 328.78px;
+  max-height: 328.78px;
+  overflow: hidden;
+  transition: all 0.2s linear;
 
   &.active {
     opacity: 1;
     z-index: 12;
     padding: 2rem;
+  }
+
+  &.dropdownActive {
+    height: 578.78px;
+    max-height: 578.78px;
   }
 
   .exitBtn {
@@ -63,38 +72,79 @@ body:has(.modalWrapper.active) {
 .title {
   font-size: $font-size-ml;
   color: $primary-color;
+  white-space: nowrap;
 }
 
 .location {
   font-size: $font-size-sm;
   color: $secondary-color;
-  margin-bottom: 2rem;
+  margin-bottom: 0.25rem;
 }
 
 .genInfo {
   font-size: 1.5rem;
   line-height: 2rem;
   color: $neutral-dark-color;
-  padding: 0rem 2rem;
+  padding-right: 2rem;
   padding-bottom: 0.1rem;
 }
 
 .btnWrapper {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
-.playedBtn {
-  font-size: $font-size-sm;
+.reviewsBtn {
+  font-size: 1.25rem;
   border-radius: 15px;
-  padding: 0.5rem;
+  padding: 0.25rem 1rem;
   cursor: pointer;
-  background-color: $neutral-dark-color;
+  background-color: $primary-color;
   color: $neutral-light-color;
+  box-shadow: none;
+  transition: box-shadow 0.15s linear, transform 0.15s linear;
+  border: 2px solid black;
+
+  &.addReviewBtn {
+    margin-left: 1rem;
+    background-color: $neutral-dark-color;
+    color: $highlight-color;
+
+    &:hover {
+      box-shadow: 0px 0px 5px $highlight-color;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0px 0px 5px $primary-color;
+    transform: scale(1.01);
+  }
+
+  .dropdownBtn {
+    margin-left: 1rem;
+  }
 }
 
 .modalInfoWrapper {
   display: flex;
-  justify-content: center;
+  margin-top: 1rem;
+}
+
+.reviewsWrapper {
+  max-height: 250px;
+  overflow-y: auto;
+  @include custom-scrollbar();
+}
+
+.reviewWrapper {
+  border: 2px solid $neutral-dark-color;
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+}
+
+.reviewUsername {
+  font-style: italic;
+  font-size: 1.15rem;
 }

@@ -1,0 +1,36 @@
+.searchForm {
+  display: flex;
+  justify-content: center;
+}
+
+.searchFormatWrapper {
+  width: 80%;
+}
+
+.searchInputsWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 2px solid black;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+  .searchInput {
+    flex-grow: 1;
+    font-size: 1.75rem;
+    padding: 0.5rem 1rem;
+    background-color: white;
+    outline: none;
+    border: none;
+
+    &:first-child {
+      border-right: 3px solid black;
+    }
+
+    &:last-child {
+      border-left: 3px solid black;
+    }
+  }
+}

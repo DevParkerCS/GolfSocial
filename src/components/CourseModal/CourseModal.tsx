@@ -1,5 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CourseType } from "../../Pages/BrowseCourses/components/course/Course";
 import styles from "./CourseModal.module.scss";
+import StarRating from "./components/StarRating/StarRating";
+import { faC, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useRef, useState } from "react";
 
 type CourseModalProps = {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +16,17 @@ export const CourseModal = ({
   modalOpen,
   courseInfo,
 }: CourseModalProps) => {
+  const [dropdownActive, setDropdownActive] = useState(false);
+  const [modalWidth, setModalWidth] = useState(0);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setDropdownActive(false);
+    if (modalRef.current) {
+      setModalWidth(modalRef.current.offsetWidth);
+    }
+  }, [modalOpen]);
+
   const handleClickOutside = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -29,7 +44,10 @@ export const CourseModal = ({
       onClick={handleClickOutside}
     >
       <div
-        className={`${styles.modalWrapper} ${modalOpen ? styles.active : ""}`}
+        className={`${styles.modalWrapper} ${modalOpen && styles.active} ${
+          dropdownActive && styles.dropdownActive
+        }`}
+        ref={modalRef}
       >
         <div
           className={styles.exitBtn}
@@ -42,6 +60,8 @@ export const CourseModal = ({
         <h3 className={styles.location}>
           {courseInfo.courseCity}, {courseInfo.courseState}
         </h3>
+        <StarRating rating={4.5} />
+
         <div className={styles.modalInfoWrapper}>
           <div>
             <h3 className={styles.genInfo}>
@@ -61,16 +81,67 @@ export const CourseModal = ({
             </h3>
             <h3 className={styles.genInfo}>
               Average Score:{" "}
-              {courseInfo.totalScoreSum / courseInfo.totalTimesPlayed || "N/A"}
+              {Math.floor(
+                courseInfo.totalScoreSum / courseInfo.totalTimesPlayed
+              ) || "N/A"}
             </h3>
           </div>
         </div>
+
         <div className={styles.btnWrapper}>
-          <button className={styles.playedBtn}>
-            Want To Add A Score For This Course?
+          <button
+            className={styles.reviewsBtn}
+            onClick={() => setDropdownActive(!dropdownActive)}
+          >
+            {dropdownActive ? "Hide" : "Show"} Reviews
+            <FontAwesomeIcon
+              className={styles.dropdownBtn}
+              icon={dropdownActive ? faCaretUp : faCaretDown}
+            />
+          </button>
+          <button className={`${styles.reviewsBtn} ${styles.addReviewBtn}`}>
+            Add Review
           </button>
         </div>
+        {dropdownActive && (
+          <div className={styles.reviewsWrapper}>
+            <Review />
+            <Review2 modalWidth={modalWidth} />
+            <Review />
+          </div>
+        )}
       </div>
+    </div>
+  );
+};
+
+const Review = () => {
+  return (
+    <div className={styles.reviewWrapper}>
+      <h3 className={styles.reviewUsername}>@Username</h3>
+      <StarRating rating={3} />
+      <p className={styles.reviewTxt}>
+        Yea this is a great course! Definetely have to play here!
+      </p>
+    </div>
+  );
+};
+
+const Review2 = ({ modalWidth = 0 }) => {
+  return (
+    <div className={styles.reviewWrapper}>
+      <h3 className={styles.reviewUsername}>@Username</h3>
+      <StarRating rating={4} />
+      <p
+        className={styles.reviewTxt}
+        style={{ maxWidth: `calc(${modalWidth}px - 4rem)` }}
+      >
+        Yea this is a great course! Definetely have to play here! Yea this is a
+        great course! Definetely have to play here!Yea this is a great course!
+        Definetely have to play here!Yea this is a great course! Definetely have
+        to play here!Yea this is a great course! Definetely have to play
+        here!Yea this is a great course! Definetely have to play here!
+      </p>
     </div>
   );
 };

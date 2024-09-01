@@ -30,7 +30,7 @@ export const AddScore = () => {
     };
     try {
       await axios.put(
-        `http://localhost:3000/playedCourses/${userId}`,
+        `http://localhost:3000/api/playedCourses/${userId}`,
         updateData
       );
       console.log("done");

@@ -1,9 +1,7 @@
 import axios from "axios";
 import { NewPostType, PostType } from "../Pages/Posts/components/Post/Post";
-import { CommentType } from "../Pages/Posts/components/Comments/Comment/Comment";
-import { NewCommentType } from "../Pages/Posts/components/Comments/Comments";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = "http://localhost:3000/api";
 
 export type LoadedPostsType = {
   nextPage: number;
