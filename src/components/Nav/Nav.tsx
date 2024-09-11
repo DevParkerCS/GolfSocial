@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const Nav = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <nav className={styles.navWrapper}>

@@ -1,0 +1,72 @@
+.loginWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.loginFormWrapper {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 15px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4rem;
+}
+
+.loginTitle {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.loginInputWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  .loginInputLabel {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+  }
+
+  .loginInput {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+    padding: 0.5rem;
+    outline: none;
+    border-radius: 15px;
+    border: 2px solid black;
+  }
+
+  .inputError {
+    color: red;
+  }
+}
+
+.passwordRules {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  .passwordRule {
+    margin-right: 3rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.loginBtnWrapper {
+  display: flex;
+  justify-content: center;
+
+  .loginBtn {
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 15px;
+    background-color: white;
+    border: 2px solid black;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+}

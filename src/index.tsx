@@ -8,6 +8,7 @@ import { Profile } from "./Pages/Profile/Profile";
 import { Posts } from "./Pages/Posts/Posts";
 import { AddScore } from "./Pages/AddScore/AddScore";
 import AddGolfCourse from "./AddGolfCourse";
+import LoginForm from "./Pages/Login/Login";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -21,6 +22,7 @@ root.render(
       <Route path="/posts" element={<Posts />} />
       <Route path="/scores" element={<AddScore />} />
       <Route path="/add" element={<AddGolfCourse />} />
+      <Route path="/login" element={<LoginForm />} />
     </Routes>
   </Router>
 );
