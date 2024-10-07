@@ -1,10 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./Nav.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUser } from "../../hooks/useUser";
 
 const Nav = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user } = useUser();
+  const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
+  useEffect(() => {
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  }, [user]);
 
   return (
     <nav className={styles.navWrapper}>
@@ -33,7 +40,7 @@ const Nav = () => {
             <>
               <li
                 className={styles.navListItem}
-                onClick={() => navigate("/profile")}
+                onClick={() => navigate(`/profile/${user?._id}`)}
               >
                 Your Profile
               </li>

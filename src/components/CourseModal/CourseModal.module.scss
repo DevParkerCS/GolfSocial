@@ -17,6 +17,7 @@ body:has(.modalWrapper.active) {
   opacity: 0;
   border-radius: 25px;
   width: fit-content;
+  min-width: 695px;
   pointer-events: auto;
   cursor: default;
   height: 328.78px;
@@ -147,4 +148,9 @@ body:has(.modalWrapper.active) {
 .reviewUsername {
   font-style: italic;
   font-size: 1.15rem;
+  margin-bottom: 0.15rem;
+}
+
+.reviewTxt {
+  font-size: 1.1rem;
 }

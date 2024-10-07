@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import LandingPage from "./Pages/LandingPage/LandingPage";
@@ -8,21 +7,24 @@ import { Profile } from "./Pages/Profile/Profile";
 import { Posts } from "./Pages/Posts/Posts";
 import { AddScore } from "./Pages/AddScore/AddScore";
 import AddGolfCourse from "./AddGolfCourse";
-import LoginForm from "./Pages/Login/Login";
+import Login from "./Pages/Login/Login";
+import { UserProvider } from "./context/userContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <Router>
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/courses" element={<BrowseCourses />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/posts" element={<Posts />} />
-      <Route path="/scores" element={<AddScore />} />
-      <Route path="/add" element={<AddGolfCourse />} />
-      <Route path="/login" element={<LoginForm />} />
-    </Routes>
-  </Router>
+  <UserProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/courses" element={<BrowseCourses />} />
+        <Route path="/profile/:profileId" element={<Profile />} />
+        <Route path="/posts" element={<Posts />} />
+        <Route path="/scores" element={<AddScore />} />
+        <Route path="/add" element={<AddGolfCourse />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  </UserProvider>
 );

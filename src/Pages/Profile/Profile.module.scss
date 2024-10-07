@@ -66,24 +66,6 @@ $scrollbar-width: 10px;
   }
 }
 
-.profileInfo {
-  padding-top: 4rem;
-  border-bottom: 2px solid white;
-  padding: 2rem;
-}
-
-.profileNameWrapper {
-  align-items: center;
-  justify-content: center;
-}
-
-.profileNameInput {
-  font-size: 4rem;
-  margin-top: 0.5rem;
-  text-align: center;
-  font-weight: bolder;
-}
-
 .profileStatsWrapper {
   display: flex;
   flex-wrap: wrap;
@@ -114,53 +96,5 @@ $scrollbar-width: 10px;
   .courseStat {
     padding: 0.5rem 1.5rem;
     font-size: 1.25rem;
-  }
-}
-
-.followInfoWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.followInfo {
-  display: flex;
-}
-
-.followItem {
-  margin: 2rem;
-  margin-top: 0rem;
-  .followTitle {
-    font-size: 2rem;
-  }
-
-  .followCount {
-    font-size: 2.5rem;
-  }
-}
-
-.followBtn {
-  width: 400px;
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s linear;
-  color: $primary-color;
-  background-color: $neutral-light-color;
-  border: 2px solid $secondary-color;
-
-  &:hover {
-    background-color: $neutral-dark-color;
-    color: $accent-color;
-    border: 2px solid $accent-color;
-  }
-
-  &.isFollowed {
-    background-color: $neutral-dark-color;
-    color: $accent-color;
-    border: 2px solid $accent-color;
   }
 }

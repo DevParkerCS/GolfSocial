@@ -1,6 +1,8 @@
 import styles from "./LandingPage.module.scss";
 import LandingRecents from "./components/LandingRecents/LandingRecents";
 import Nav from "../../components/Nav/Nav";
+import { useEffect } from "react";
+import axios from "axios";
 
 function LandingPage() {
   return (

@@ -9,6 +9,7 @@ import {
   unlikePost,
 } from "../../../../Util/PostsAPI";
 import { Comments } from "../Comments/Comments";
+import { useUser } from "../../../../hooks/useUser";
 
 export type PostType = {
   _id: string;
@@ -33,7 +34,7 @@ export const Post = ({ post }: PostProps) => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(false);
   const commentSectionRef = useRef<HTMLDivElement>(null);
   const likeBtnRef = useRef<HTMLDivElement>(null);
-  const userId = "2";
+  const { userId } = useUser();
 
   useEffect(() => {
     const checkPostLiked = async () => {

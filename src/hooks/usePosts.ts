@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { loadRecentPosts, createNewPost } from "../Util/PostsAPI";
 import { PostType, NewPostType } from "../Pages/Posts/components/Post/Post";
 import { badWords } from "../BadWords";
+import { useUser } from "./useUser";
 
 type LastPostInfoType = {
   nextPage: number;
@@ -9,10 +10,11 @@ type LastPostInfoType = {
 };
 
 type UsePostsProps = {
-  userId?: string;
+  inProfile: boolean;
 };
 
-export const usePosts = ({ userId }: UsePostsProps) => {
+export const usePosts = ({ inProfile }: UsePostsProps) => {
+  const { user } = useUser();
   const [loadedPosts, setLoadedPosts] = useState<PostType[]>([]);
   const [lastPostInfo, setLastPostInfo] = useState<LastPostInfoType | null>(
     null
@@ -28,12 +30,18 @@ export const usePosts = ({ userId }: UsePostsProps) => {
       try {
         setIsLoadingPosts(true);
         const recentPosts = await (lastPostInfo
-          ? loadRecentPosts(userId, lastPostInfo?.nextPage, lastPostInfo?.date)
-          : loadRecentPosts(userId));
+          ? loadRecentPosts(
+              inProfile ? user?._id : undefined,
+              lastPostInfo.nextPage,
+              lastPostInfo.date
+            )
+          : loadRecentPosts(inProfile ? user?._id : undefined));
 
         const nextPage = recentPosts.nextPage;
         const date = recentPosts.date;
-        setMaxPostsLoaded(nextPage === lastPostInfo?.nextPage);
+        setMaxPostsLoaded(
+          nextPage === lastPostInfo?.nextPage || nextPage === 1
+        );
         setLastPostInfo({ nextPage, date });
         setLoadedPosts((prevState) => [...prevState, ...recentPosts.posts]);
         setIsLoadingPosts(false);
@@ -56,33 +64,37 @@ export const usePosts = ({ userId }: UsePostsProps) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const title = form.elements[0] as HTMLInputElement;
-    const text = form.elements[1] as HTMLTextAreaElement;
-    const words = [...title.value.split(" "), ...text.value.split(" ")];
-    const hasBadWords = words.some((word) => badWords.has(word));
+    if (user) {
+      const form = e.target as HTMLFormElement;
+      const title = form.elements[0] as HTMLInputElement;
+      const text = form.elements[1] as HTMLTextAreaElement;
+      const words = [...title.value.split(" "), ...text.value.split(" ")];
+      const hasBadWords = words.some((word) => badWords.has(word));
 
-    if (hasBadWords) {
-      console.log("Bad Word Found!");
-      return;
-    }
+      if (hasBadWords) {
+        console.log("Bad Word Found!");
+        return;
+      }
 
-    const newPost: NewPostType = {
-      username: "Th3RedMan", // Replace with the actual username if available
-      userId: userId || "1", // Replace with actual userId
-      likeCount: 0,
-      numComments: 0,
-      title: title.value,
-      text: text.value,
-    };
-    try {
-      const post = await createNewPost(newPost);
-      setLoadedPosts((prevState) => [post, ...prevState]);
-      setCharCount(0);
-      title.value = "";
-      text.value = "";
-    } catch (err) {
-      console.log("Error Creating Post");
+      const newPost: NewPostType = {
+        username: user?.username,
+        userId: user?._id,
+        likeCount: 0,
+        numComments: 0,
+        title: title.value,
+        text: text.value,
+      };
+      try {
+        const post = await createNewPost(newPost);
+        setLoadedPosts((prevState) => [post, ...prevState]);
+        setCharCount(0);
+        title.value = "";
+        text.value = "";
+      } catch (err) {
+        console.log("Error Creating Post");
+      }
+    } else {
+      console.log("User not logged in");
     }
   };
 

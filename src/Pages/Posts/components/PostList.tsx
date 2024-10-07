@@ -6,14 +6,16 @@ import { Post } from "./Post/Post";
 import styles from "./PostList.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { useUser } from "../../../hooks/useUser";
 
 type PostListProps = {
   userId?: string;
   inProfile?: boolean;
 };
 
-export const PostList = ({ userId, inProfile = false }: PostListProps) => {
+export const PostList = ({ inProfile = false }: PostListProps) => {
   const { ref, inView } = useInView({ threshold: 0 });
+  const { userId, user } = useUser();
   const {
     loadedPosts,
     maxPostsLoaded,
@@ -24,15 +26,13 @@ export const PostList = ({ userId, inProfile = false }: PostListProps) => {
     charCount,
     maxChars,
     maxTitle,
-  } = usePosts({ userId });
+  } = usePosts({ inProfile });
 
   useEffect(() => {
     if (inView) {
       fetchPosts();
     }
   }, [inView]);
-
-  //Basic check for bad words
 
   return (
     <div

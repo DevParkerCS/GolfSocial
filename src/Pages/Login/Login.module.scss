@@ -1,3 +1,5 @@
+@use "../../styles/color/color" as *;
+
 .loginWrapper {
   display: flex;
   justify-content: center;
@@ -19,10 +21,18 @@
   margin-bottom: 0.5rem;
 }
 
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .loginInputWrapper {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+  width: 80%;
 
   .loginInputLabel {
     margin-bottom: 0.5rem;
@@ -52,21 +62,20 @@
   .passwordRule {
     margin-right: 3rem;
     margin-bottom: 0.5rem;
+    font-weight: bold;
   }
 }
 
-.loginBtnWrapper {
-  display: flex;
-  justify-content: center;
+.loginSwitchTxt {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 1rem 0rem;
 
-  .loginBtn {
-    width: 100%;
-    font-size: 1.5rem;
-    padding: 0.5rem;
-    border-radius: 15px;
-    background-color: white;
-    border: 2px solid black;
+  .loginSwitch {
     cursor: pointer;
-    margin-bottom: 1rem;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
