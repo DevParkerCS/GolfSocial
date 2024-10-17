@@ -4,37 +4,36 @@ import styles from "./SearchResults.module.scss";
 
 type Props = {
   active: boolean;
-  courses: CourseType[];
-  onCourseSelect?: (course: CourseType) => void;
+  courses: CourseType[] | null;
+  courseCB: (course: CourseType) => void;
 };
 
-export const SearchResults = ({ active, courses, onCourseSelect }: Props) => {
+export const SearchResults = ({ active, courses, courseCB }: Props) => {
   // If no dropdown isn't active remove from dom.
   if (!active) {
     return <div className={styles.resultsWrapper}></div>;
   }
   return (
     <div className={`${styles.resultsWrapper} ${styles.active}`}>
-      {courses.map((c) => (
-        <Result key={c.courseId} course={c} onCourseSelect={onCourseSelect} />
-      ))}
+      {courses && courses?.length > 0 ? (
+        courses.map((c) => (
+          <Result key={c.courseId} course={c} courseCB={courseCB} />
+        ))
+      ) : (
+        <h2 className={styles.noCourses}>No courses found.</h2>
+      )}
     </div>
   );
 };
 
 type ResultProps = {
   course: CourseType;
-  onCourseSelect?: (course: CourseType) => void;
+  courseCB: (course: CourseType) => void;
 };
 
-const Result = ({ course, onCourseSelect }: ResultProps) => {
+const Result = ({ course, courseCB }: ResultProps) => {
   return (
-    <div
-      className={styles.result}
-      onClick={
-        onCourseSelect ? () => onCourseSelect(course) : () => console.log("IDK")
-      }
-    >
+    <div className={styles.result} onClick={() => courseCB(course)}>
       <h3 className={styles.courseName}>{course.courseName}</h3>
       <p className={styles.courseLoc}>
         {course.courseCity}, {course.courseState}

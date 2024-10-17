@@ -48,7 +48,7 @@ export const Comment = ({ comment, postId }: CommentProps) => {
       }
     };
     checkLiked();
-  }, [commentContent._id]);
+  }, [commentContent._id, userId]);
 
   return (
     <div className={styles.comment}>

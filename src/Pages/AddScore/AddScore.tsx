@@ -6,20 +6,25 @@ import { CheckMarksBtn } from "../../components/CheckMarks/CheckMarks";
 import { PostPreview } from "./components/PostPreview/PostPreview";
 import axios from "axios";
 import { CourseType } from "../BrowseCourses/components/course/Course";
+import { useUser } from "../../hooks/useUser";
+import { useCourseSearch } from "../../hooks/useCourseSearch";
 
 export const AddScore = () => {
   const [hasPlayed, setHasPlayed] = useState(false);
   const [score, setScore] = useState("");
   const [course, setCourse] = useState<CourseType | null>(null);
   const [makePost, setMakePost] = useState(false);
-  const userId = "1";
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { userId } = useUser();
 
   useEffect(() => {
     setCourse(null);
     setMakePost(false);
     setScore("");
-  }, [hasPlayed]);
+    setIsSubmitted(false);
+  }, [hasPlayed, isSubmitted]);
 
+  // Add new course to played courses database
   const handleSubmit = async () => {
     const updateData = {
       courseId: course?.courseId,
@@ -33,7 +38,7 @@ export const AddScore = () => {
         `http://localhost:3000/api/playedCourses/${userId}`,
         updateData
       );
-      console.log("done");
+      setIsSubmitted(true);
     } catch (err) {
       console.log(err);
     }
@@ -56,7 +61,12 @@ export const AddScore = () => {
       </div>
 
       <div className={styles.courseSearchWrapper}>
-        <CourseSearch setCourse={setCourse} hasPlayed={hasPlayed} />
+        <CourseSearch
+          setCourse={setCourse}
+          course={course}
+          hasPlayed={hasPlayed}
+          isSubmitted={isSubmitted}
+        />
       </div>
 
       {course && (

@@ -45,8 +45,10 @@ export const Post = ({ post }: PostProps) => {
       }
     };
 
-    checkPostLiked();
-  }, []);
+    if (userId) {
+      checkPostLiked();
+    }
+  }, [userId]);
 
   const handleLikeClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (isLiked) {

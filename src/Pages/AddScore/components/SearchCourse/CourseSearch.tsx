@@ -8,22 +8,20 @@ import { CourseType } from "../../../BrowseCourses/components/course/Course";
 type PropsType = {
   setCourse: React.Dispatch<React.SetStateAction<CourseType | null>>;
   hasPlayed: boolean;
+  course: CourseType | null;
+  isSubmitted: boolean;
 };
 
-export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
-  const userId = "1";
-  const { courses, loading, error, fetchCourses } = useCourseSearch(
-    hasPlayed,
-    userId
-  );
-
-  const {
-    inputRef,
-    handleChange,
-    handleCourseSelect,
-    isCoursePicked,
-    setIsCoursePicked,
-  } = useCourseSearchHandler(fetchCourses);
+export const CourseSearch = ({
+  setCourse,
+  hasPlayed,
+  course,
+  isSubmitted,
+}: PropsType) => {
+  const { courses, loading, error, fetchCourses, setPlayedCourses } =
+    useCourseSearch(hasPlayed);
+  const { inputRef, handleChange, handleCourseSelect } =
+    useCourseSearchHandler(fetchCourses);
   const [isSearching, setIsSearching] = useState(true);
 
   useEffect(() => {
@@ -33,12 +31,20 @@ export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
     if (inputRef.current) {
       inputRef.current.value = "";
     }
-    setIsCoursePicked(false);
     fetchCourses("");
   }, [hasPlayed]);
 
+  useEffect(() => {
+    if (!course && inputRef.current) {
+      inputRef.current.value = "";
+    }
+  }, [course]);
+
+  useEffect(() => {
+    setPlayedCourses(null);
+  }, [isSubmitted]);
+
   const handleChangeClick = () => {
-    setIsCoursePicked(false);
     setCourse(null);
     if (inputRef.current) {
       inputRef.current.value = "";
@@ -57,7 +63,7 @@ export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
         <SearchOptionBtns
           setIsSearching={setIsSearching}
           isSearching={isSearching}
-          isCoursePicked={isCoursePicked}
+          course={course}
         />
       )}
       {isSearching ? (
@@ -65,17 +71,17 @@ export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
           <div className={styles.courseInputWrapper}>
             <input
               ref={inputRef}
-              onChange={() => !isCoursePicked && handleChange()}
+              onChange={() => !course && handleChange()}
               className={`${styles.courseInput} ${hasPlayed && styles.played} ${
-                isCoursePicked ? styles.picked : styles.dropDown
+                !!course ? styles.picked : styles.dropDown
               }`}
               type="text"
-              readOnly={isCoursePicked || (loading && hasPlayed)}
+              readOnly={!!course || (loading && hasPlayed)}
               placeholder={
                 loading && hasPlayed ? "Loading Played Courses" : "Search..."
               }
             />
-            {isCoursePicked && (
+            {!!course && (
               <button
                 className={`${styles.changeBtn} ${!hasPlayed && styles.played}`}
                 onClick={handleChangeClick}
@@ -86,8 +92,8 @@ export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
           </div>
           <SearchResults
             courses={courses}
-            onCourseSelect={(course) => handleCourseSelect(course, setCourse)}
-            active={!isCoursePicked}
+            courseCB={(course) => handleCourseSelect(course, setCourse)}
+            active={!course}
           />
         </div>
       ) : (
@@ -100,22 +106,20 @@ export const CourseSearch = ({ setCourse, hasPlayed }: PropsType) => {
 type SearchOptionBtnsProps = {
   setIsSearching: React.Dispatch<React.SetStateAction<boolean>>;
   isSearching: boolean;
-  isCoursePicked: boolean;
+  course: CourseType | null;
 };
 
 const SearchOptionBtns = ({
   setIsSearching,
   isSearching,
-  isCoursePicked,
+  course,
 }: SearchOptionBtnsProps) => {
   return (
-    <div
-      className={`${styles.searchOptions} ${isCoursePicked && styles.inactive}`}
-    >
+    <div className={`${styles.searchOptions} ${!!course && styles.inactive}`}>
       <button
         onClick={() => setIsSearching(true)}
         className={`${styles.searchOption} ${isSearching && styles.active} ${
-          isCoursePicked && styles.inactive
+          !!course && styles.inactive
         }`}
         type="button"
       >
@@ -124,7 +128,7 @@ const SearchOptionBtns = ({
       <button
         onClick={() => setIsSearching(false)}
         className={`${styles.searchOption} ${!isSearching && styles.active} ${
-          isCoursePicked && styles.inactive
+          !!course && styles.inactive
         }`}
         type="button"
       >

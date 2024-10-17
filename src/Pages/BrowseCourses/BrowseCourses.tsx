@@ -12,14 +12,6 @@ export const BrowseCourses = () => {
   const [error, setError] = useState<String | null>(null);
 
   useEffect(() => {
-    const savedCourses = JSON.parse(localStorage.getItem("topCourses") || "[]");
-    const savedTimestamp = parseInt(
-      localStorage.getItem("topCoursesTimestamp") || "0",
-      10
-    );
-    const fiveMin = 300000; // milliseconds in five min
-    const currentTime = new Date().getTime();
-
     const callFetchAPI = async () => {
       try {
         setIsLoading(true);
@@ -34,18 +26,7 @@ export const BrowseCourses = () => {
       }
     };
 
-    // Check if it has been greater than five minutes since last fetching data
-    if (
-      savedCourses &&
-      savedTimestamp &&
-      currentTime - savedTimestamp < fiveMin
-    ) {
-      // Use cached courses
-      setLoadedCourses(savedCourses);
-    } else {
-      // Fetch new data
-      callFetchAPI();
-    }
+    callFetchAPI();
   }, []);
 
   return (
@@ -53,7 +34,6 @@ export const BrowseCourses = () => {
       <Nav />
       <div className={styles.contentWrapper}>
         <div className={styles.searchWrapper}>
-          <h1 className={styles.searchTitle}>Search For Courses</h1>
           <SearchForm loadedCourses={loadedCourses} />
         </div>
         <section className={styles.coursesSection}>

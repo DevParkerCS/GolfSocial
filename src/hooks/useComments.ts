@@ -63,7 +63,10 @@ export const useComments = ({
     );
     setIsLoadingComments(false);
     setPostComments((prevState) => [...prevState, ...loadedComments.comments]);
-    setMaxCommentsLoaded(lastcommentInfo?.nextPage === loadedComments.nextPage);
+    setMaxCommentsLoaded(
+      lastcommentInfo?.nextPage === loadedComments.nextPage ||
+        loadedComments.nextPage === 1
+    );
     setLastCommentInfo({
       nextPage: loadedComments.nextPage,
       timeStamp: loadedComments.date,

@@ -5,7 +5,6 @@ import { debounce } from "lodash";
 export const useCourseSearchHandler = (
   fetchCourses: (value: string) => void
 ) => {
-  const [isCoursePicked, setIsCoursePicked] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const debouncedFetchCourses = useMemo(
@@ -23,7 +22,6 @@ export const useCourseSearchHandler = (
     setCourse: React.Dispatch<React.SetStateAction<CourseType | null>>
   ) => {
     setCourse(course);
-    setIsCoursePicked(true);
     if (inputRef.current) {
       inputRef.current.value = course.courseName;
     }
@@ -33,7 +31,5 @@ export const useCourseSearchHandler = (
     inputRef,
     handleChange,
     handleCourseSelect,
-    isCoursePicked,
-    setIsCoursePicked,
   };
 };

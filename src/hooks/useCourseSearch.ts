@@ -2,15 +2,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { CourseType } from "../Pages/BrowseCourses/components/course/Course";
 import { fetchTopCourses } from "../Util/GolfCourseAPI";
+import { useUser } from "./useUser";
 
-export const useCourseSearch = (hasPlayed: boolean, userId: string) => {
-  const [courses, setCourses] = useState<CourseType[]>([]);
+export const useCourseSearch = (hasPlayed: boolean) => {
+  const [courses, setCourses] = useState<CourseType[] | null>([]);
   const [topCourses, setTopCourses] = useState<CourseType[] | null>(null);
   const [playedCourses, setPlayedCourses] = useState<CourseType[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { userId } = useUser();
   const API_BASE_URL = "http://localhost:3000/api";
 
+  // Determine if fetching every course, or only courses played by user
   const fetchCourses = (query: string) => {
     hasPlayed ? fetchPlayedCourses(query) : fetchAllCourses(query);
   };
@@ -52,7 +55,7 @@ export const useCourseSearch = (hasPlayed: boolean, userId: string) => {
 
   type FetchedPlayedResponse = {
     userId: string;
-    playedCourses: CourseType[];
+    playedCourses?: CourseType[];
   };
 
   const fetchPlayedCourses = async (query: string) => {
@@ -77,12 +80,14 @@ export const useCourseSearch = (hasPlayed: boolean, userId: string) => {
         const response = await axios.get<FetchedPlayedResponse>(
           `${API_BASE_URL}/playedCourses/${userId}`
         );
-        setPlayedCourses(response.data.playedCourses);
-        setCourses(response.data.playedCourses);
+        setPlayedCourses(response.data?.playedCourses || null);
+        setCourses(response.data?.playedCourses || null);
         setLoading(false);
         setError(null);
       }
     } catch (err) {
+      console.log(err);
+      setLoading(false);
       setError("Failed to fetch played courses");
     }
   };
@@ -93,6 +98,7 @@ export const useCourseSearch = (hasPlayed: boolean, userId: string) => {
     loading,
     error,
     setCourses,
+    setPlayedCourses,
     fetchCourses,
   };
 };
