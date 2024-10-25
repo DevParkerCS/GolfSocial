@@ -15,7 +15,7 @@ export const AddScore = () => {
   const [course, setCourse] = useState<CourseType | null>(null);
   const [makePost, setMakePost] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { userId } = useUser();
+  const { userId, setUser, user } = useUser();
 
   useEffect(() => {
     setCourse(null);
@@ -34,10 +34,11 @@ export const AddScore = () => {
       score: parseInt(score),
     };
     try {
-      await axios.put(
+      const response = await axios.put(
         `http://localhost:3000/api/playedCourses/${userId}`,
         updateData
       );
+      setUser(response.data.user ? response.data.user : user);
       setIsSubmitted(true);
     } catch (err) {
       console.log(err);

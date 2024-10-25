@@ -1,0 +1,37 @@
+.profileStatsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  .scoreStats,
+  .courseStats {
+    flex: 1;
+    padding: 1rem;
+    color: rgba(0, 0, 0, 0.8);
+    border-right: 2px solid white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .courseStats {
+    border-right: none;
+  }
+
+  .scoreStatsTitle,
+  .courseStatsTitle {
+    font-size: 2.5rem;
+    font-weight: bolder;
+    text-decoration: underline;
+    margin: 1rem;
+    color: #333;
+  }
+
+  .statWrapper {
+    padding: 0.5rem 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  .stat {
+    font-weight: normal;
+  }
+}

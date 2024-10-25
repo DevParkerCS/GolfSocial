@@ -19,8 +19,6 @@ export const ProfileInfo = ({
   setActiveUserInfo,
   activeUserInfo,
 }: ProfileInfoProps) => {
-  const { user } = useUser();
-
   const handleFollowClick = () => {
     if (isFollowed) {
       setActiveUserInfo((prev) => {
@@ -46,7 +44,7 @@ export const ProfileInfo = ({
     <div className={styles.profileInfoWrapper}>
       <div className={styles.profileInfo}>
         <div className={styles.profileNameWrapper}>
-          <p className={styles.profileNameInput}>{user?.username}</p>
+          <p className={styles.profileNameInput}>{activeUserInfo?.username}</p>
           {ownsProfile ? (
             <button
               onClick={handleFollowClick}
@@ -70,11 +68,15 @@ export const ProfileInfo = ({
         <div className={styles.followInfoWrapper}>
           <div className={styles.followInfo}>
             <div className={styles.followItem}>
-              <p className={styles.followCount}>{user?.numFollowers}</p>
+              <p className={styles.followCount}>
+                {activeUserInfo?.numFollowers}
+              </p>
               <p className={styles.followTitle}>Followers</p>
             </div>
             <div className={styles.followItem}>
-              <p className={styles.followCount}>{user?.numFollowing}</p>
+              <p className={styles.followCount}>
+                {activeUserInfo?.numFollowing}
+              </p>
               <p className={styles.followTitle}>Following</p>
             </div>
           </div>

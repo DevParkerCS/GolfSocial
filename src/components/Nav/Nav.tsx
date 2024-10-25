@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Nav.module.scss";
 import { useEffect, useState } from "react";
 import { useUser } from "../../hooks/useUser";
+import axios from "axios";
 
 const Nav = () => {
   const navigate = useNavigate();
@@ -12,6 +13,21 @@ const Nav = () => {
       setIsLoggedIn(true);
     }
   }, [user]);
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/logout",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <nav className={styles.navWrapper}>
@@ -44,7 +60,9 @@ const Nav = () => {
               >
                 Your Profile
               </li>
-              <li className={styles.navListItem}>Logout</li>
+              <li onClick={handleLogout} className={styles.navListItem}>
+                Logout
+              </li>
             </>
           ) : (
             <li

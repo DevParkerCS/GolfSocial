@@ -6,12 +6,10 @@ export const useUser = () => {
   const { userId, setUserId, user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    if (userId) {
-      fetchUser(userId);
+    if (user) {
+      setUserId(user._id);
     }
-  }, [userId]);
-
-  const fetchUser = (userId: string) => {};
+  }, [user]);
 
   return { userId, setUserId, user, setUser };
 };

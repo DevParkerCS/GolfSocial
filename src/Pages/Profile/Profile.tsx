@@ -7,6 +7,8 @@ import { PublicUserType } from "../../types/UserTypes";
 import { useParams } from "react-router-dom";
 import { ProfileInfo } from "./components/ProfileInfo/ProfileInfo";
 import { useUser } from "../../hooks/useUser";
+import { fetchPublicProfile } from "../../Util/UserAPI";
+import { ProfileTab } from "./components/ProfileTab/ProfileTab";
 
 export const Profile = () => {
   const { userId, user } = useUser();
@@ -18,8 +20,29 @@ export const Profile = () => {
   );
   const [tabSelected, setTabSelected] = useState(0);
 
+  const fetchProfile = async () => {
+    if (profileId) {
+      try {
+        const userInfo = await fetchPublicProfile(profileId);
+        setActiveUserInfo(userInfo);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   useEffect(() => {
-    setOwnsProfile(profileId === userId);
+    if (profileId === userId) {
+      setOwnsProfile(true);
+      setActiveUserInfo(user);
+    } else if (profileId) {
+      setOwnsProfile(false);
+      try {
+        fetchProfile();
+      } catch (err) {
+        console.log("err");
+      }
+    }
   }, [userId, profileId]);
 
   return (
@@ -40,56 +63,15 @@ export const Profile = () => {
               setActiveUserInfo={setActiveUserInfo}
               setIsFollowed={setIsFollowed}
             />
-            {tabSelected === 0 ? <ProfileTab user={user} /> : ""}
+            {tabSelected === 0 ? <ProfileTab user={activeUserInfo} /> : ""}
             {tabSelected === 2 ? (
               <div className={styles.profilePostsWrapper}>
-                <PostList userId={userId} inProfile={true} />
+                <PostList userId={profileId} inProfile={true} />
               </div>
             ) : (
               ""
             )}
           </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-type ProfileTabProps = {
-  user: PublicUserType | null;
-};
-
-const ProfileTab = ({ user }: ProfileTabProps) => {
-  return (
-    <div className={styles.profileStatsWrapper}>
-      <div className={styles.scoreStats}>
-        <h2 className={styles.scoreStatsTitle}>Score Stats</h2>
-        <h2 className={styles.scoreStat}>
-          Total Rounds Played: {user?.totalPlays ?? "N/A"}
-        </h2>
-        <h2 className={styles.scoreStat}>
-          Lowest Score: {user?.lowScore ?? "N/A"}
-        </h2>
-        <h2 className={styles.scoreStat}>
-          Highest Score: {user?.highScore ?? "N/A"}
-        </h2>
-      </div>
-      <div className={styles.courseStats}>
-        <h2 className={styles.courseStatsTitle}>Course Stats</h2>
-        <div>
-          <h2 className={styles.courseStat}>
-            Most Played Course: {user?.mostPlayed?.courseName ?? "N/A"}
-          </h2>
-        </div>
-        <div>
-          <h2 className={styles.courseStat}>
-            Lowest Round Course: {user?.lowRound?.courseName ?? "N/A"}
-          </h2>
-        </div>
-        <div>
-          <h2 className={styles.courseStat}>
-            Highest Round Course: {user?.highRound?.courseName ?? "N/A"}
-          </h2>
         </div>
       </div>
     </div>
